@@ -4,9 +4,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
-const needle = require('needle');
 const pocketAPI = require('pocket-api');
 const pocket = new pocketAPI(process.env.POCKET_CONSUMER_KEY);
+pocket.setAccessToken(process.env.POCKET_ACCESS_TOKEN);
 
 app.use(
   helmet({
@@ -29,20 +29,33 @@ app.use(function (req, res, next) {
 });
 
 app.get('/setup', async function (req, res) {
-  if (pocket.access_token) {
-    res.render('setup.html', {
-      title: 'Setup Pocket to Roam integration',
-      link_text: 'Link your Pocket account',
-      link_url: '/setup/pocket',
-      complete: true,
-    });
-    return;
-  }
-  res.render('setup.html', {
+  let data = {
     title: 'Setup Pocket to Roam integration',
-    link_text: 'Link your Pocket account',
-    link_url: '/setup/pocket',
-  });
+    pocket_consumer_text:
+      'Create a Pocket consumer key and copy to your environment variables (POCKET_ACCESS_TOKEN)',
+    pocket_consumer_url: 'https://getpocket.com/developer/apps/',
+    link_pocket_text: 'Link your Pocket account',
+    link_pocket_url: '/setup/pocket',
+    copy_access_text:
+      'Copy the resulting Pocket access token to your environment variables',
+    roam_creds_text:
+      'Copy your roam email address and password to your environment variables (ROAM_EMAIL and ROAM_PASS)',
+  };
+
+  if (process.env.POCKET_CONSUMER_KEY) {
+    data.pocket_consumer_complete = true;
+  }
+  if (process.env.POCKET_ACCESS_TOKEN) {
+    data.pocket_access_complete = true;
+    data.link_pocket_complete = true;
+  } else if (pocket.access_token) {
+    data.copy_access_token = pocket.access_token;
+    data.link_pocket_complete = true;
+  }
+  if (process.env.ROAM_EMAIL && process.env.ROAM_PASS) {
+    data.roam_creds_compelte = true;
+  }
+  res.render('setup.html', data);
 });
 
 app.get('/setup/pocket', async function (req, res) {
