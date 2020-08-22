@@ -8,6 +8,9 @@ const pocketAPI = require('pocket-api');
 const pocket = new pocketAPI(process.env.POCKET_CONSUMER_KEY);
 pocket.setAccessToken(process.env.POCKET_ACCESS_TOKEN);
 
+const roam = require('./roam')();
+roam.go(process.env.ROAM_EMAIL, process.env.ROAM_PASS);
+
 app.use(
   helmet({
     dnsPrefetchControl: { allow: true },
