@@ -1,28 +1,23 @@
-{% extends "base.html" %}
-{% block content %}
-    <main>
-        <h1>{{title}}</h1>
-        <ol>
-        <li>{{pocket_consumer_text}}{% if pocket_consumer_complete %}: Complete ✅{% endif %}
-        </li>
-        {% if link_pocket_complete %}
-        <li>{{link_pocket_text}}: Complete ✅</li>
-        {% else %}
-        <li><a href="{{link_pocket_url}}">{{link_pocket_text}}</a></li>
-        {% endif %}
-        <li>{{copy_access_text}}
-        {% if pocket_access_complete %}
-            : Complete ✅
-        {% endif %}
-        {% if copy_access_token %}
-            : {{copy_access_token}}
-        {% endif %}
-        </li>
-        <li>{{roam_creds_text}}
-        {% if roam_creds_complete %}
-            : Complete ✅
-        {% endif %}
-        </li>
-        </ol>
-    </main>
+{% extends "base.html" %} {% block content %}
+<main>
+  <h1>{{title}}</h1>
+  <ol>
+    <li>
+      {{pocket_consumer_text}}{% if pocket_consumer_complete %}: Complete ✅{%
+      endif %}
+    </li>
+    {% if link_pocket_complete %}
+    <li>{{link_pocket_text}}: Complete ✅</li>
+    {% else %}
+    <li><a href="{{link_pocket_url}}">{{link_pocket_text}}</a></li>
+    {% endif %}
+    <li>
+      {{copy_access_text}} {% if pocket_access_complete %} : Complete ✅ {%
+      endif %} {% if copy_access_token %} : {{copy_access_token}} {% endif %}
+    </li>
+    <li>
+      {{roam_creds_text}} {% if roam_creds_complete %} : Complete ✅ {% endif %}
+    </li>
+  </ol>
+</main>
 {% endblock %}

@@ -56,7 +56,7 @@ app.get('/setup', async function (req, res) {
     data.link_pocket_complete = true;
   }
   if (process.env.ROAM_EMAIL && process.env.ROAM_PASS) {
-    data.roam_creds_compelte = true;
+    data.roam_creds_complete = true;
   }
   res.render('setup.html', data);
 });
